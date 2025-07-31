@@ -1,37 +1,41 @@
 # Team Lauterbur
 ## Brain CT Flow Chart
 
+See [clinical scenario](https://docs.google.com/document/d/1AbMGfBinw8_epP9_cIjC8s-tYXvqS_8XI4lB4wp4Qxc/edit?tab=t.0#heading=h.bxasmyukr250)
+
 ```mermaid
-flowchart TD
-    Generator[Demo Generator] --> |1 DICOM| QveraIE[Qvera Interface Engine]
+flowchart LR
+    %% Current CT acquisition
+    Gen2[Demo Generator 2nd Scan] --> |1 DICOM| QveraIE[Qvera Interface Engine]
+    QveraIE --> |2a ORM| Epic[EpicRadiant]
+    QveraIE --> |2b ORM| PACS[PACS]
+    QveraIE --> |2c ORM| NT[NewtonsTree]
+    QveraIE --> |2d ORM| RadAI[RadAI]
+    QveraIE --> |2e DICOM| NT
+    QveraIE --> |2f DICOM| ACR[ACRAssess]
 
-    QveraIE --> |2a ORM| EpicRadiant
-    QveraIE --> |2b ORM| PACS
-    QveraIE --> |2c ORM| NewtonsTree
-    QveraIE --> |2d ORM| RadAI
-    QveraIE --> |2e DICOM| NewtonsTree
-    QveraIE --> |2f DICOM| ACRAssess
+    %% Prior scan retrieval
+    %% This may be via Qvera but timing needs clarifying
+    %% NT |3a DICOM-QR via Patient ID or Accession| PACS
+    QveraIE --> |3b Prior Scans| NT
 
-    NewtonsTree --> |3 DICOM Study| icometrix
+    %% Send all scans to icometrix
+    NT --> |4 All Studies Prior and Current| iCo[icometrix AI]
+    iCo --> |5 DICOM-SR with Percent Change| NT
 
-    icometrix --> |4 DICOM Results| NewtonsTree
+    %% FHIR Reporting and Alerting
+    NT --> |6a FHIR Observation| ACR
+    NT --> |6b FHIR Observation| Epic
+    NT --> |6c FHIR Observation| RadAI
 
-    %% AI results reviewed on the screen - Newtons Tree can do this as a blocking or parallel step
-    NewtonsTree --> |5 Review Results| NewtonsTree
+    NT --> |7a Check if Percent Change > Threshold| NT
+    %% TBD what mechanism used to trigger an alert in Epic %%
+    NT --> |7b FHIR Alert Message TBD| Epic
 
-    NewtonsTree --> |6a DICOM Resuls| QveraIE
-    NewtonsTree --> |6b DICOM Results| PACS
-    NewtonsTree --> |6c FHIR Results| ACRAssess
-    NewtonsTree --> |6d FHIR Results| EpicRadiant
-    NewtonsTree --> |6e FHIR Results| RadAI
-
-    %% Could send FHIR results over FHIRcast
-    
-    %% TODO Where do CDS hooks go and what do they look like here?!?
-
-    %% Assuming we choose to report this study - maybe do FHIR?
-    %% TODO: Feature IHE IDR
-    RadAI --> |8a ORU| PACS
-    RadAI --> |8b ORU| EpicRadiant
-    RadAI --> |8c ORU| ACRAssess
+    %% Optional results distribution
+    NT --> |8a DICOM Results| QveraIE
+    NT --> |8b DICOM Results| PACS
+    RadAI --> |8c ORU| PACS
+    RadAI --> |8d ORU| EpicRadiant
+    RadAI --> |8e ORU| ACRAssess    
 ```
