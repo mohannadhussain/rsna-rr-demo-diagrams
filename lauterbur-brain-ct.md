@@ -15,41 +15,31 @@ See [clinical scenario](https://docs.google.com/document/d/1AbMGfBinw8_epP9_cIjC
     QveraIE --> |2f DICOM| ACR[ACRAssess]
     QveraIE --> |2g DICOM| Visage
 
-    %% Prior scan retrieval
-    NT --> |3a Priors DICOM-QR| Visage
-    Visage --> |3b Priors C-STORE| NT
-
-    %% Send all scans to icometrix
-    NT --> |4 All Studies Prior and Current| iCo[icometrix AI]
+    %% Send scan to icometrix
+    NT --> |3 Prior or Current| iCo[icometrix AI]
 
     %% DICOM Results include SCs, PDF as well as SR with precent change
-    iCo --> |5 DICOM Results| NT
+    iCo --> |4 DICOM Results| NT
 
     %% FHIR Reporting and Alerting
-    NT --> |6a FHIR Observation| ACR
-    NT --> |6b FHIR Observation| RadAI
+    NT --> |5a FHIR Observation| ACR
+    NT --> |5b FHIR Observation| RadAI
+    NT --> |5c HL7 v2 ORU| Epic
 
-    %% Epic needs this over FHIRcast
-    %% TODO - NT to decide if they want to do this, if not then Qvera
-    NT --> |6c HL7 v2 ORU| Epic
+    NT --> |6a Check if Percent Change > Threshold| NT
+    NT --> |6b Worklist Priorization HL7 v2 ORU| Epic
 
-    NT --> |7a Check if Percent Change > Threshold| NT
-    %% TBD what mechanism used to trigger an alert in Epic %%
-    NT --> |7b Worklist Priorization FHIR??| Epic
-
-    %% For the Siemens usecase, AI review through a NT worklist then results are propagated
-
-    %% Optional results distribution
-    NT --> |8a DICOM Results| QveraIE
-    NT --> |8b DICOM Results| Visage
+    %% Results distribution
+    NT --> |7a DICOM Results| QveraIE
+    NT --> |7b DICOM Results| Visage
 
     %% Reporting workflow
-    Epic --> |9a FHIRcast Context Sync| Visage
-    Epic --> |9b FHIRcast Context Sync| RadAI
+    Epic --> |8a FHIRcast Context Sync| Visage
+    Epic --> |8b FHIRcast Context Sync| RadAI
 
-    RadAI --> |10 Signed report ORU| Qvera
+    RadAI --> |9 Signed report ORU| Qvera
 
-    Qvera --> |11a ORU| Visage
-    Qvera --> |11b ORU| EpicRadiant
-    Qvera --> |11c ORU| ACRAssess  
+    Qvera --> |10a ORU| Visage
+    Qvera --> |10b ORU| EpicRadiant
+    Qvera --> |10c ORU| ACRAssess  
 ```

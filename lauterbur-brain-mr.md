@@ -1,7 +1,7 @@
 # Team Lauterbur
 ## Brain MR Flow Chart
 
-Requires multiple findings, one or more of which are modified or rejected, to implement [AIRA profile](https://www.ihe.net/uploadedFiles/Documents/Radiology/IHE_RAD_Suppl_AIRA.pdf).
+<!-- Would require multiple findings, one or more of which are modified or rejected, to implement [AIRA profile](https://www.ihe.net/uploadedFiles/Documents/Radiology/IHE_RAD_Suppl_AIRA.pdf). -->
 
 ```mermaid
 flowchart LR
@@ -19,11 +19,10 @@ flowchart LR
 
     SiemensAIRC --> |4 DICOM Results| NewtonsTree
 
-    NewtonsTree --> |5 Review Results IHE AIRA| ReviewResults[Review Results]
-    ReviewResults --> |5a Apply AIRA Profile| NewtonsTree
+    NewtonsTree --> |5 Review Results| NewtonsTree
 
-    NewtonsTree --> |6a Modified DICOM w/ AIRA| QveraIE
-    NewtonsTree --> |6b Modified DICOM w/ AIRA| Visage
+    NewtonsTree --> |6a DICOM Results| QveraIE
+    NewtonsTree --> |6b DICOM Results| Visage
     NewtonsTree --> |6c FHIR Results| ACRAssess
     NewtonsTree --> |6d FHIR Results| RadAI
     NewtonsTree --> |6e HL7 v2 ORU| EpicRadiant
