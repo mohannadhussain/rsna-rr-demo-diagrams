@@ -13,24 +13,23 @@ flowchart LR
     Interlinx --> |2f FHIR Resources for GEIP| HAPI_FHIR
 
     HOPPR --> |3a Agentic Workflow| HOPPR
-    HOPPR --> |3b DICOM AIR| Interlinx
+    HOPPR --> |3b DICOM AIR| Fovia
 
-    Interlinx --> |4a DICOM AIR| Fovia
-    Interlinx --> |4b DICOM AIR| Visage
+    Fovia --> |4a AI Results Review| Fovia
+    Fovia --> |4b Reviewed AI Results| Interlinx
 
-    Fovia --> |5a AI Results Review| Fovia
-    Fovia --> |5b Reviewed AI Results| Interlinx
-
-    Interlinx --> |6 DICOM Study + AIR| XNAT
+    Interlinx --> |5a DICOM AIR| Fovia
+    Interlinx --> |5b DICOM AIR| Visage
+    Interlinx --> |5c DICOM Study + AIR| XNAT
     %% Can Interlinx hold the whole study until this step?!?
 
-    HOPPR --> |7 Presto Report Draft| Microsoft
+    HOPPR --> |6 Presto Report Draft| Microsoft
 
-    Microsoft --> |8 signed ORU| Interlinx
+    Microsoft --> |7 signed ORU| Interlinx
 
-    Interlinx --> |9 Report| XNAT
+    Interlinx --> |8 Report| XNAT
     %% This will be a RESTful call
 
-    XNAT --> |10a Anonymization| XNAT
-    XNAT --> |10b ?? Local data| HOPPR
+    XNAT --> |9a Anonymization| XNAT
+    XNAT --> |9b ?? Local data| HOPPR
 ```
