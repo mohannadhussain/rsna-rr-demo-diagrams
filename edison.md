@@ -15,21 +15,28 @@ flowchart LR
     HOPPR --> |3a Agentic Workflow| HOPPR
     HOPPR --> |3b DICOM AIR| Fovia
 
+    %% Fovia has two outputs: DICOM SR, CDE encoded output report
     Fovia --> |4a AI Results Review| Fovia
     Fovia --> |4b Reviewed AI Results| Interlinx
+    %% Send information to Microsoft in FHIR?!? 
 
     Interlinx --> |5a DICOM AIR| Fovia
     Interlinx --> |5b DICOM AIR| Visage
     Interlinx --> |5c DICOM Study + AIR| XNAT
     %% Can Interlinx hold the whole study until this step?!?
 
-    HOPPR --> |6 Presto Report Draft| Microsoft
+    Visage e1@-- 6 Persistent FHIRcast Link --- Microsoft
+    e1@{ animation: fast } 
 
-    Microsoft --> |7 signed ORU| Interlinx
+    HOPPR --> |7 Presto Report Draft| Microsoft
+    %% Exact syntax not known
 
-    Interlinx --> |8 Report| XNAT
+    Microsoft --> |8 signed ORU| Interlinx
+
+    Interlinx --> |9a Report| Visage
+    Interlinx --> |9b Report| XNAT
     %% This will be a RESTful call
 
-    XNAT --> |9a Anonymization| XNAT
-    XNAT --> |9b ?? Local data| HOPPR
+    XNAT --> |10a Anonymize Images and Report| XNAT
+    XNAT --> |10b ?? Local data| HOPPR
 ```
