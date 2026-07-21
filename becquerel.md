@@ -7,9 +7,7 @@ flowchart LR
     Qvera --> |2a ORM| Epic
     Qvera --> |2b ORM| Agfa[Agfa Enterprise Imaging]
     Qvera --> |2c ORM| Jacobian[Jacobian Smart Reports]
-    Qvera --> |2d ORM| ACR[ACR Connect]
-    Qvera --> |2e DICOM| Agfa
-    Qvera --> |2g DICOM| ACR
+    Qvera --> |2d DICOM| Agfa
 
     Qvera e1@-- 3a Persistent FHIRcast Link --- Agfa
     e1@{ animation: fast } 
@@ -23,7 +21,7 @@ flowchart LR
     Siemens --> |5 DICOM AIR| Qvera
 
     Qvera --> |6a DICOM AIR| Agfa
-    Qvera --> |6b DICOM AIR| ACR
+    Qvera --> |6b DICOM AIR| ACR[ACR Connect]
 
     Agfa --> |7a FHIRcast IRA| Epic
     Agfa --> |7b FHIRcast IRA| Jacobian
@@ -36,7 +34,6 @@ flowchart LR
     %% OR should we use FHIR?!?
 
     Qvera --> |10a ORU Report| Agfa
-    Qvera --> |10b ORU Report| ACR
 
     ACR --> |11a DICOM| Siemens
     ACR --> |11b DICOM| Agfa
