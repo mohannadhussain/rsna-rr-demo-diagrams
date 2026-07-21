@@ -35,8 +35,7 @@ flowchart LR
 
     Qvera --> |10a ORU Report| Agfa
 
-    ACR --> |11a DICOM| Siemens
-    ACR --> |11b DICOM| Agfa
-    ACR --> |11c FHIR/CDA| Jacobian
-    ACR --> |11d FHIR| Epic
+    ACR --> |11a DICOM| Agfa
+    ACR --> |11b FHIR/CDA| Jacobian
+    ACR --> |11c FHIR| Epic
 ```
