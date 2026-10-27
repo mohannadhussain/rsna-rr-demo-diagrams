@@ -21,7 +21,7 @@ flowchart LR
     Siemens --> |5 DICOM AIR| Qvera
 
     Qvera --> |6a DICOM AIR| Agfa
-    Qvera --> |6b DICOM AIR| ACR[ACR Connect]
+    Qvera --> |6b ORU| ACR[ACR Connect]
 
     Agfa --> |7a FHIRcast IRA| Epic
     Agfa --> |7b FHIRcast IRA| Jacobian
